@@ -1,8 +1,15 @@
+using AuthApi.Application.Services;
+using AuthApi.Data.Context;
+using AuthApi.Data.Repositories;
+using AuthApi.Domain.Contracts.Repositories;
+using AuthApi.Domain.Contracts.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 
 namespace AuthApi.WebApi
 {
@@ -18,8 +25,20 @@ namespace AuthApi.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddDbContext<AuthApiContext>(options => 
+            //        options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                       
+            services.AddTransient<IProfileService, ProfileService>();
+            services.AddTransient<IProfileRepository, ProfileRepository>();
+
+            services.AddScoped<AuthApiContext>();
 
             services.AddControllers();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -29,6 +48,11 @@ namespace AuthApi.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
 
             app.UseRouting();
 
