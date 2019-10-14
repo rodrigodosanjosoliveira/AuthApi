@@ -6,17 +6,17 @@ namespace AuthApi.Data.Context
 {
     public class AuthApiContext : DbContext
     {
-        public DbSet<Profile> Profiles { get; set; }
+        public DbSet<Usuario> Usuario { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=AuthApiDb;Integrated Security=true");
+            optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=AuthApiDb;Integrated Security=true");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            modelBuilder.Entity<Profile>(
+            modelBuilder.Entity<Usuario>(
                 p =>
                 {
                     p.HasKey("Id");
@@ -26,14 +26,14 @@ namespace AuthApi.Data.Context
                 }
             );
 
-            modelBuilder.Entity<Profile>().OwnsMany<Telefone>("Telefones", t =>
+            modelBuilder.Entity<Usuario>().OwnsMany<Telefone>("Telefones", t =>
             {
                 t.WithOwner()
-                    .HasForeignKey(ca => ca.ProfileId)
-                    .HasConstraintName("FK_Profiles");
+                    .HasForeignKey(ca => ca.UsuarioId)
+                    .HasConstraintName("FK_Usuarios");
                 t.Property(ca => ca.Ddd);
                 t.Property(ca => ca.Numero);
-                t.HasKey("ProfileId", "Ddd", "Numero");
+                t.HasKey("UsuarioId", "Ddd", "Numero");
             });
 
         }

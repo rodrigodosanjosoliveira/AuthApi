@@ -4,9 +4,11 @@ using AuthApi.Domain.Entities;
 
 namespace AuthApi.Data.Repositories
 {
-    public class ProfileRepository : Repository<Profile>, IProfileRepository
+    public class UsuarioRepository : Repository<Usuario>, IUsuarioRepository
     {
-        public ProfileRepository(AuthApiContext context)
+        public UsuarioRepository(AuthApiContext context)
             : base(context) { }
+
+        
     }
 }

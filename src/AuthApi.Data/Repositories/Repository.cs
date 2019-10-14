@@ -44,10 +44,11 @@ namespace AuthApi.Data.Repositories
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public async Task Update(Guid id, T entity)
+        public async Task<T> Update(Guid id, T entity)
         {
             _context.Set<T>().Update(entity);
             await _context.SaveChangesAsync();
+            return entity;
         }
     }
 }
