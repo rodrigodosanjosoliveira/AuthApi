@@ -4,9 +4,9 @@ namespace AuthApi.Domain.Entities
 {
     public abstract class Entity
     {
-        protected Entity(Guid id)
+        protected Entity()
         {
-            Id = id;
+            Id = new Guid();
             DateCreated = DateTime.Now;
         }
         public Guid Id { get; private set; }

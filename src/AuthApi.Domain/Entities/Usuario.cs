@@ -4,10 +4,11 @@ using System.Collections.Generic;
 
 namespace AuthApi.Domain.Entities
 {
-    public class Profile : Entity
+    public class Usuario : Entity
     {
-        public Profile(Guid id, string nome, string email, string senha, ICollection<Telefone> telefones)
-            : base(id)
+        public Usuario() { }
+
+        public Usuario(string nome, string email, string senha, List<Telefone> telefones)
         {
             Nome = nome;
             Email = email;
@@ -19,9 +20,9 @@ namespace AuthApi.Domain.Entities
         public string Nome { get; }
         public string Email { get; }
         public string Senha { get; }
+        public string Token { get; set; }
         public DateTime UltimoLogin { get; set; }
-        public ICollection<Telefone> Telefones { get; }
+        public List<Telefone> Telefones { get; }
     }
-
 
 }
