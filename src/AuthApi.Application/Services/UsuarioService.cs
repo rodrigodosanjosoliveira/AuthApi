@@ -30,6 +30,18 @@ namespace AuthApi.Application.Services
             return novoUsuario;
         }
 
+        public Usuario CreateWithAdo(UsuarioInputDto usuarioInput)
+        {
+            var telefones = usuarioInput.Telefones.Select(t => new Telefone(t.Ddd, t.Numero, t.UsuarioId));
+            var usuario = new Usuario(usuarioInput.Nome, usuarioInput.Email, usuarioInput.Senha, telefones.ToList())
+            {
+                Token = usuarioInput.Token
+            };
+            
+            var retorno = _usuarioRepository.CreateUsingAdo(usuario);
+            return retorno;
+        }
+
         public async Task Delete(Guid id)
         {
             await _usuarioRepository.Delete(id);

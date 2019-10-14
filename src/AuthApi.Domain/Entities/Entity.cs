@@ -6,7 +6,7 @@ namespace AuthApi.Domain.Entities
     {
         protected Entity()
         {
-            Id = new Guid();
+            Id = Guid.NewGuid();
             DateCreated = DateTime.Now;
         }
         public Guid Id { get; private set; }

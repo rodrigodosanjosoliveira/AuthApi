@@ -11,6 +11,8 @@ namespace AuthApi.Domain.Contracts.Services
     {
         Task<Usuario> Create(UsuarioInputDto usuario);
 
+        Usuario CreateWithAdo(UsuarioInputDto usuarioInput);
+
         Task Delete(Guid id);
 
         IEnumerable<Usuario> GetAll();

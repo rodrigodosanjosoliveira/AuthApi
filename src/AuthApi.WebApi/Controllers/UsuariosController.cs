@@ -44,7 +44,11 @@ namespace AuthApi.WebApi.Controllers
                 usuarioInput.Token = _authenticate.GerarToken(usuarioInput.Id, erro);
                 if (erro != null)
                     return BadRequest(erro);
+                
+                
                 Usuario novoUsuario = await _usuarioService.Create(usuarioInput).ConfigureAwait(true);
+                // ADO Method
+                //Usuario novoUsuario = _usuarioService.CreateWithAdo(usuarioInput);
                 return CreatedAtAction(nameof(Get), new { id = novoUsuario.Id }, new UsuarioDto(novoUsuario));
             }
             catch (Exception ex)
