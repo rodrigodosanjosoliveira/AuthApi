@@ -14,7 +14,7 @@ namespace AuthApi.Domain.Contracts.Repositories
 
         Task<T> Create(T entity);
 
-        Task Update(Guid id, T entity);
+        Task<T> Update(Guid id, T entity);
 
         Task Delete(Guid id);
     }
