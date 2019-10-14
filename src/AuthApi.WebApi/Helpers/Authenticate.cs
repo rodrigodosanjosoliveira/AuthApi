@@ -1,5 +1,4 @@
 ﻿using AuthApi.Domain.Contracts.Services;
-using AuthApi.Domain.Dto;
 using AuthApi.Domain.Entities;
 using AuthApi.Domain.ValueTypes;
 using Microsoft.Extensions.Options;
@@ -41,6 +40,7 @@ namespace AuthApi.WebApi.Helpers
 
             usuario.UltimoLogin = DateTime.Now;
             usuario.Token = GerarToken(usuario.Id,erro);
+            _usuarioService.Update(usuario.Id, new Domain.Dto.UsuarioDto(usuario));
             return usuario;
         }
 

@@ -1,5 +1,4 @@
-﻿using AuthApi.Domain.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace AuthApi.Domain.ValueTypes
