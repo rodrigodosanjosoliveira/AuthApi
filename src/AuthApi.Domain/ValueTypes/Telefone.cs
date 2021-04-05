@@ -5,10 +5,7 @@ namespace AuthApi.Domain.ValueTypes
 {
     public class Telefone : ValueObject
     {
-        public Telefone()
-        {
-
-        }
+        public Telefone() { }
 
         public string Ddd { get; }
         public string Numero { get; }

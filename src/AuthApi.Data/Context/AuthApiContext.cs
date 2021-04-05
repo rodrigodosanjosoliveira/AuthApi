@@ -10,7 +10,7 @@ namespace AuthApi.Data.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=AuthApiDb;Integrated Security=true");
+            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=AuthApiDb;Integrated Security=true");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -14,8 +14,8 @@ namespace AuthApi.WebApi.Helpers
 
     public interface IAuthenticate
     {
-        Usuario Login(string email, string senha, Erro erro);
-        string GerarToken(Guid usuarioId, Erro erro);
+        Usuario Login(string email, string senha);
+        string GerarToken(Guid usuarioId);
     }
 
     public class Authenticate : IAuthenticate
@@ -29,26 +29,20 @@ namespace AuthApi.WebApi.Helpers
             _appSettings = appSettings.Value;
         }
 
-        public Usuario Login(string email, string senha, Erro erro)
+        public Usuario Login(string email, string senha)
         {
-            var usuario = _usuarioService.GetAll().SingleOrDefault(u => u.Email == email && Hashing.ValidatePassword(senha,u.Senha));
+            var usuario = _usuarioService.GetAll().SingleOrDefault(u => u.Email == email && Hashing.ValidatePassword(senha, u.Senha));
 
-            if(email == null || senha == null)
-                erro = new Erro { StatusCode = "401", Mensagem = "Usuário e/ou senha inválidos" };
-            if (usuario == null)
-                erro = new Erro { StatusCode = "400", Mensagem = "Usuário e/ou senha inválidos" };
-
+            if (usuario == null) return usuario;
             usuario.UltimoLogin = DateTime.Now;
-            usuario.Token = GerarToken(usuario.Id,erro);
+            usuario.Token = GerarToken(usuario.Id);
             _usuarioService.Update(usuario.Id, new Domain.Dto.UsuarioDto(usuario));
+
             return usuario;
         }
 
-        public string GerarToken(Guid usuarioId, Erro erro)
+        public string GerarToken(Guid usuarioId)
         {
-            if (usuarioId == Guid.Empty)
-                erro = new Erro { StatusCode = "400", Mensagem = "Parâmetros inválidos" };
-
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor

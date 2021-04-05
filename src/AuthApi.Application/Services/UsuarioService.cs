@@ -21,7 +21,7 @@ namespace AuthApi.Application.Services
 
         public async Task<Usuario> Create(UsuarioInputDto usuarioInput)
         {
-            var telefones = usuarioInput.Telefones.Select(t => new Telefone(t.Ddd, t.Numero,t.UsuarioId));
+            var telefones = usuarioInput.Telefones.Select(t => new Telefone(t.Ddd, t.Numero, t.UsuarioId));
             var usuario = new Usuario(usuarioInput.Nome, usuarioInput.Email, usuarioInput.Senha, telefones.ToList())
             {
                 Token = usuarioInput.Token
@@ -37,7 +37,7 @@ namespace AuthApi.Application.Services
             {
                 Token = usuarioInput.Token
             };
-            
+
             var retorno = _usuarioRepository.CreateUsingAdo(usuario);
             return retorno;
         }
@@ -71,7 +71,6 @@ namespace AuthApi.Application.Services
 
         public async Task<Usuario> Update(Guid id, UsuarioDto usuario)
         {
-            var usuarioDb = await GetById(id);
             var usuarioAtualizado = new Usuario(usuario.Nome, usuario.Email, usuario.Senha, usuario.Telefones.Select(t => new Telefone(t.Ddd, t.Numero, usuario.Id)).ToList());
             return await _usuarioRepository.Update(id, usuarioAtualizado);
         }

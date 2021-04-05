@@ -44,9 +44,9 @@ namespace AuthApi.Data.Repositories
                             $"('{telefone.Ddd}','{telefone.Numero}', '{usuario.Id}')";
                 }
 
-            SqlConnection connection = new SqlConnection(ConnectionString);
+            SqlConnection connection = new(ConnectionString);
             connection.Open();
-            SqlCommand command = new SqlCommand(query, connection);
+            SqlCommand command = new(query, connection);
             var retorno = command.ExecuteNonQuery();
             command.Dispose();
             connection.Close();

@@ -4,12 +4,11 @@ using AuthApi.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AuthApi.Data.Migrations
 {
     [DbContext(typeof(AuthApiContext))]
-    partial class AuthApiContextModelSnapshot : ModelSnapshot
+    class AuthApiContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

@@ -4,11 +4,6 @@ namespace AuthApi.Domain.ValueTypes
 {
     public class Erro : ValueObject
     {
-        public Erro()
-        {
-
-        }
-
         public string StatusCode { get; set; }
         public string Mensagem { get; set; }
 

@@ -14,7 +14,7 @@ namespace AuthApi.Domain.Entities
             Email = email;
             Senha = senha;
             Telefones = telefones;
-            UltimoLogin = base.DateCreated;
+            UltimoLogin = DateCreated;
         }
 
         public string Nome { get; }

@@ -30,7 +30,7 @@ namespace AuthApi.WebApi.Controllers
         [HttpPost("/signup")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<UsuarioDto>> Signup([FromBody]UsuarioInputDto usuarioInput)
+        public async Task<ActionResult<UsuarioDto>> Signup([FromBody] UsuarioInputDto usuarioInput)
         {
             if (usuarioInput == null || !ModelState.IsValid)
                 return BadRequest(new Erro { StatusCode = "400", Mensagem = "Parâmetros inválidos." });
@@ -41,31 +41,25 @@ namespace AuthApi.WebApi.Controllers
             try
             {
                 usuarioInput.Senha = Hashing.HashPassword(usuarioInput.Senha);
-                usuarioInput.Token = _authenticate.GerarToken(usuarioInput.Id, erro);
-                if (erro != null)
-                    return BadRequest(erro);
-                
-                
-                Usuario novoUsuario = await _usuarioService.Create(usuarioInput).ConfigureAwait(true);
-                // ADO Method
-                //Usuario novoUsuario = _usuarioService.CreateWithAdo(usuarioInput);
+                usuarioInput.Token = _authenticate.GerarToken(usuarioInput.Id);
+
+                var novoUsuario = await _usuarioService.Create(usuarioInput).ConfigureAwait(true);
                 return CreatedAtAction(nameof(Get), new { id = novoUsuario.Id }, new UsuarioDto(novoUsuario));
             }
             catch (Exception ex)
             {
                 return BadRequest(new Erro { StatusCode = "400", Mensagem = ex.Message });
             }
-                        
+
         }
 
 
         [AllowAnonymous]
         [HttpPost("/login")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<UsuarioDto> Authenticate([FromBody]LoginDto login)
+        public ActionResult<UsuarioDto> Authenticate([FromBody] LoginDto login)
         {
-            var erro = new Erro();
-            var usuario = _authenticate.Login(login.Login, login.Password, erro);
+            var usuario = _authenticate.Login(login.Login, login.Password);
 
             if (usuario == null)
                 return BadRequest(new Erro { Mensagem = "Usuário e/ou senha inválidos." });
@@ -73,7 +67,7 @@ namespace AuthApi.WebApi.Controllers
             return Ok(new UsuarioDto(usuario));
         }
 
-        
+
         [HttpGet("/profile/{id}")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -81,9 +75,9 @@ namespace AuthApi.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public ActionResult<UsuarioDto> Get(Guid id)
         {
-            Erro erro = null;
+            Erro erro;
 
-            if(id == Guid.Empty)
+            if (id == Guid.Empty)
             {
                 erro = new Erro
                 {
@@ -94,8 +88,8 @@ namespace AuthApi.WebApi.Controllers
             }
 
             var usuario = _usuarioService.GetById(id);
-            
-            if(usuario == null)
+
+            if (usuario == null)
             {
                 erro = new Erro
                 {
